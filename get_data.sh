@@ -38,7 +38,7 @@ wget -nc -q http://compling.hss.ntu.edu.sg/omw/wns/slv.zip -P "${WNET}"
 echo "Unzipping wordnet data"
 
 for LANG in als bul ell ita ron slv; do
-        unzip -ofq "${WNET}/${LANG}" -d "${WNET}"
+        unzip -ofq "${WNET}/${LANG}.zip" -d "${WNET}"
         rm -f "${WNET}/${LANG}.zip"
 done
 
