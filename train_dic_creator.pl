@@ -109,8 +109,8 @@ my @tail = @result[-$size..-1];
 my $train_file_name = $source_lang . '_' . $target_lang . '.train';
 my $test_file_name = $source_lang . '_' . $target_lang . '.test';
 
-open my $train_fh, '>', $train_file_name;
-open my $test_fh, '>', $test_file_name;
+open my $train_fh, '>', $dict_dir . $train_file_name;
+open my $test_fh, '>', $dict_dir . $test_file_name;
 
 print $train_fh join("\n", @head);
 print $test_fh join("\n", @tail);

@@ -23,7 +23,7 @@
 #
 
 ROOT="$(pwd)"
-WNET="${ROOT}/data"
+WNET="${ROOT}/wordnets"
 mkdir -p "${WNET}"
 
 echo "Downloading wordnet data"
@@ -63,3 +63,27 @@ wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/el-sq.dic.g
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/it-ro.dic.gz -P "${DICT}" # Italian - Romanian
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/ro-sl.dic.gz -P "${DICT}" # Romanian - Albanian
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/ro-sq.dic.gz -P "${DICT}" # Romanian - Albanian
+
+for FILE in ${DICT}/*; do
+    gunzip -q "${FILE}"
+done
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+echo "Creating dictionaries"
+
+for PAIR in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
+    IFS=',' read -r source_lang target_lang <<< "${PAIR}"
+    perl "${ROOT}/train_dic_creator.pl" "${source_lang}" "${target_lang}"
+done
+
+TRAIN_DIR="${DICT}/train"
+TEST_DIR="${DICT}/test"
+
+mkdir -p "${TRAIN_DIR}"
+mkdir -p "${TEST_DIR}"
+
+mv ${DICT}/*.train ${TRAIN_DIR}
+mv ${DICT}/*.test ${TEST_DIR}
+rm -f ${DICT}/*.dic
