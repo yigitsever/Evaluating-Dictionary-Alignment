@@ -38,11 +38,20 @@ wget -nc -q http://compling.hss.ntu.edu.sg/omw/wns/slv.zip -P "${WNET}"
 echo "Unzipping wordnet data"
 
 for lang in als bul ell ita ron slv; do
-        unzip -o -f -q "${WNET}/${lang}.zip" -d "${WNET}"
-#        rm -f "${WNET}/${lang}.zip"
+        unzip -o -q "${WNET}/${lang}.zip" -d "${WNET}"
+        rm -f "${WNET}/${lang}.zip"
 done
 
 rm -rf "${WNET}/ita/" # comes alongside iwn, not useful for us
+mv "${WNET}/iwn" "${WNET}/ita"
+
+TAB_DIR="${WNET}/tab_files"
+mkdir -p "${TAB_DIR}"
+
+for filename in ${WNET}/*/wn-data*.tab; do
+    echo ">>>$filename"
+    ${ROOT}/tab_creator.pl $filename
+done
 
 echo "Downloading dictionaries"
 
