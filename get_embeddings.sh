@@ -37,10 +37,10 @@ wget -nc -q https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.sl.300.vec.
 
 echo "Extracting embeddings"
 
-for LANG in sq bg el it ro sl; do
-        gunzip "${EMBS}/cc.${LANG}.300.vec.gz"
-        mv "${EMBS}/cc.${LANG}.300.vec.gz" "${EMBS}/${LANG}.1M.vec"
+for lang_code in sq bg el it ro sl; do
+        gunzip "${EMBS}/cc.${lang_code}.300.vec.gz"
+        mv "${EMBS}/cc.${lang_code}.300.vec" "${EMBS}/${lang_code}.1M.vec"
 done
 
-unzip -ofq "${EMBS}/crawl-300d-2M.vec.zip" -d "${EMBS}"
-mv "${EMBS}/crawl-300d-2M.vec" "${EMBS}/en.vec"
+unzip -q "${EMBS}/crawl-300d-2M.vec.zip" -d "${EMBS}"
+mv "${EMBS}/crawl-300d-2M.vec" "${EMBS}/en.1M.vec"
