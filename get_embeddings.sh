@@ -49,5 +49,5 @@ rm -f "${EMBS}/crawl-300d-2M.vec.zip"
 # truncate to top 500k tokens for efficiency
 for lang_code in bg en el it ro sl sq; do
     sed -in '1,500001!d' "${EMBS}/${lang_code}.vec"
-    sed -in '1 s/^.*$/500000 300/' "${EMBS}/${lang_code}.vec"
+    sed -i '1 s/^.*$/500000 300/' "${EMBS}/${lang_code}.vec"
 done
