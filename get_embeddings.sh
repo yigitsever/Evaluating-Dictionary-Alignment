@@ -39,8 +39,15 @@ echo "Extracting embeddings"
 
 for lang_code in sq bg el it ro sl; do
         gunzip "${EMBS}/cc.${lang_code}.300.vec.gz"
-        mv "${EMBS}/cc.${lang_code}.300.vec" "${EMBS}/${lang_code}.1M.vec"
+        mv "${EMBS}/cc.${lang_code}.300.vec" "${EMBS}/${lang_code}.vec"
 done
 
 unzip -q "${EMBS}/crawl-300d-2M.vec.zip" -d "${EMBS}"
-mv "${EMBS}/crawl-300d-2M.vec" "${EMBS}/en.1M.vec"
+mv "${EMBS}/crawl-300d-2M.vec" "${EMBS}/en.vec"
+rm -f "${EMBS}/crawl-300d-2M.vec.zip"
+
+# truncate to top 500k tokens for efficiency
+for lang_code in bg en el it ro sl sq; do
+    sed -in '1,500001!d' "${EMBS}/${lang_code}.vec"
+    sed -in '1 s/^.*$/500000 300/' "${EMBS}/${lang_code}.vec"
+done

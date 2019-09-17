@@ -20,3 +20,15 @@ git clone https://github.com/yigitsever/Evaluating-Dictionary-Alignment.git && c
 This will create two directories; `dictionaries` and `wordnets`.
 Linewise aligned definition files are in `wordnets/ready`.
 
+## Acquiring The Embeddings
+
+We use [VecMap](https://github.com/artetxem/vecmap) on [fastText](https://fasttext.cc/) embeddings.
+You can skip this step if you are providing your own polylingual embeddings.
+Otherwise simply run;
+
+```bash
+./get_embeddings.sh
+```
+
+Bear in mind that this will require around 30 GB free space.
+
