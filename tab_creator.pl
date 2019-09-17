@@ -36,8 +36,6 @@ my %language_codes = (
 
 my ($tab_file, $tab_dir) = @ARGV;
 
-print "working on $tab_file\n";
-
 if (not defined $tab_file or not defined $tab_file) {
     die "usage: ./tab_creator.pl <tab_file>";
 }
