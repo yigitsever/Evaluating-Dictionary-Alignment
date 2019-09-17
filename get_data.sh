@@ -23,6 +23,7 @@
 #
 
 ROOT="$(pwd)"
+SCRIPTS="${ROOT}/scripts"
 WNET="${ROOT}/wordnets"
 mkdir -p "${WNET}"
 
@@ -45,24 +46,23 @@ done
 rm -rf "${WNET}/ita/" # comes alongside iwn, not useful for us
 mv "${WNET}/iwn" "${WNET}/ita"
 
-
 echo "Creating .def files"
 
 TAB_DIR="${WNET}/tab_files"
 mkdir -p "${TAB_DIR}"
 
-for filename in ${WNET}/*/wn-data*.tab; do
-    ${ROOT}/tab_creator.pl $filename
+for filename in "${WNET}"/*/wn-data*.tab; do
+    "${SCRIPTS}/tab_creator.pl" "${filename}" "${TAB_DIR}"
 done
 
 for PAIR in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
     IFS=',' read -r source_lang target_lang <<< "${PAIR}"
-    python ${ROOT}/prep_lookup.py -s "${source_lang}" -t "${target_lang}"
+    python "${SCRIPTS}/prep_lookup.py" -s "${source_lang}" -t "${target_lang}"
 done
 
 READY="${WNET}/ready"
 mkdir -p "${READY}"
-mv ${ROOT}/*.def "${READY}"
+mv "${SCRIPTS}"/*.def "${READY}"
 
 echo "Downloading dictionaries"
 
@@ -84,8 +84,8 @@ wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/it-ro.dic.g
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/ro-sl.dic.gz -P "${DICT}" # Romanian - Albanian
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/ro-sq.dic.gz -P "${DICT}" # Romanian - Albanian
 
-for FILE in ${DICT}/*; do
-    gunzip -q "${FILE}"
+for file in "${DICT}"/*; do
+    gunzip -q "${file}"
 done
 
 export LC_CTYPE=en_US.UTF-8
@@ -95,7 +95,7 @@ echo "Creating dictionaries"
 
 for PAIR in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
     IFS=',' read -r source_lang target_lang <<< "${PAIR}"
-    perl "${ROOT}/train_dic_creator.pl" "${source_lang}" "${target_lang}"
+    perl "${SCRIPTS}/train_dic_creator.pl" "${source_lang}" "${target_lang}" "${DICT}"
 done
 
 TRAIN_DIR="${DICT}/train"
