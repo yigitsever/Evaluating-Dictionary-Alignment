@@ -58,7 +58,7 @@ if (-e "$dict_dir/$target_lang-$source_lang.dic") {
     $file_name = "$source_lang-$target_lang.dic";
 }
 
-my $file_path = $dict_dir . $file_name;
+my $file_path = "${dict_dir}/${file_name}";
 
 local @ARGV = $file_path;
 local $^I = '.bak';
@@ -106,8 +106,8 @@ my $size = $cutoff / 2;
 my @head = @result[0..$size - 1];
 my @tail = @result[-$size..-1];
 
-my $train_file_name = "$dict_dir/$source_lang_$target_lang.train';
-my $test_file_name  = "$dict_dir/$source_lang_$target_lang.test';
+my $train_file_name = "${dict_dir}/${source_lang}_${target_lang}.train";
+my $test_file_name  = "${dict_dir}/${source_lang}_${target_lang}.test";
 
 open my $train_fh, '>', $train_file_name;
 open my $test_fh, '>', $test_file_name;

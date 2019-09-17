@@ -40,7 +40,7 @@ echo "Unzipping wordnet data"
 
 for lang in als bul ell ita ron slv; do
         unzip -o -q "${WNET}/${lang}.zip" -d "${WNET}"
-        rm -f "${WNET}/${lang}.zip"
+        #rm -f "${WNET}/${lang}.zip"
 done
 
 rm -rf "${WNET}/ita/" # comes alongside iwn, not useful for us
