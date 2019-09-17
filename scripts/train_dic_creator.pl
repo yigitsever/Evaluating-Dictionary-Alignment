@@ -33,7 +33,7 @@ use strict;
 use warnings;
 use List::Util qw(shuffle);
 
-my ($source_lang, $target_lang, $cutoff, $dict_dir) = @ARGV;
+my ($source_lang, $target_lang, $dict_dir, $cutoff) = @ARGV;
 
 if (not defined $source_lang or not defined $target_lang) {
     die "usage: ./train_dic_creator.pl <source_lang> <target_lang> (cutoff)";
