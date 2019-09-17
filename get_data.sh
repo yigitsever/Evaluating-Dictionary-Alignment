@@ -37,12 +37,12 @@ wget -nc -q http://compling.hss.ntu.edu.sg/omw/wns/slv.zip -P "${WNET}"
 
 echo "Unzipping wordnet data"
 
-for LANG in als bul ell ita ron slv; do
-        unzip -ofq "${WNET}/${LANG}.zip" -d "${WNET}"
-        rm -f "${WNET}/${LANG}.zip"
+for lang in als bul ell ita ron slv; do
+        unzip -o -f -q "${WNET}/${lang}.zip" -d "${WNET}"
+#        rm -f "${WNET}/${lang}.zip"
 done
 
-rm -rf "${WNET}/ita" # comes alongside iwn, not useful for us
+rm -rf "${WNET}/ita/" # comes alongside iwn, not useful for us
 
 echo "Downloading dictionaries"
 
@@ -84,6 +84,6 @@ TEST_DIR="${DICT}/test"
 mkdir -p "${TRAIN_DIR}"
 mkdir -p "${TEST_DIR}"
 
-mv ${DICT}/*.train ${TRAIN_DIR}
-mv ${DICT}/*.test ${TEST_DIR}
-rm -f ${DICT}/*.dic
+mv "${DICT}"/*.train "${TRAIN_DIR}"
+mv "${DICT}"/*.test "${TEST_DIR}"
+rm -f "${DICT}"/*.dic
