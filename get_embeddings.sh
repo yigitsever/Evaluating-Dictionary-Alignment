@@ -74,7 +74,7 @@ mkdir -p "${MAP_TO}"
 for i in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
     IFS=',' read -r source_lang target_lang <<< "${i}"
     python "${ROOT}/vecmap/map_embeddings.py" --supervised \
-        "${TRAIN_DIC_DIR}/${source_lang}_${target_lang}.dic" \
+        "${TRAIN_DIC_DIR}/${source_lang}_${target_lang}.train" \
         "${EMBS}/${source_lang}.vec" \
         "${EMBS}/${target_lang}.vec" \
         "${MAP_TO}/${source_lang}_to_${target_lang}.vec" \
