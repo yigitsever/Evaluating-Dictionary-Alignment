@@ -25,6 +25,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 
 ROOT="$(pwd)"
 EMBS="${ROOT}/embeddings"
+DICT="${ROOT}/dictionaries"
 mkdir -p "${EMBS}"
 
 echo "Downloading embeddings"
@@ -58,15 +59,15 @@ if [ ! "$(ls -A "${ROOT}/vecmap/")" ]; then
     echo "VecMap directory seems empty, did you run git submodule init && git submodule update?"; exit
 fi
 
-if [ ! -d "${ROOT}/dictionaries" ]; then
+if [ ! -d "${DICT}" ]; then
     echo "Dictionaries directory does not exist, did you run ./get_data.sh?"; exit
 fi
 
-if [ ! "$(ls -A "${ROOT}/dictionaries/")" ]; then
+if [ ! "$(ls -A "${DICT}")" ]; then
     echo "Dictionaries directory seems empty, did you run ./get_data.sh?"; exit
 fi
 
-TRAIN_DIC_DIR="${ROOT}/dictionaries/train"
+TRAIN_DIC_DIR="${DICT}/train"
 MAP_TO="${ROOT}/bilingual_embeddings"
 
 mkdir -p "${MAP_TO}"
