@@ -40,5 +40,5 @@ git submodule init && git submodule update
 ./get_embeddings.sh
 ```
 
-Bear in mind that this will require around 30 GB free space.
+Bear in mind that this will require around 50 GB free space.
 
