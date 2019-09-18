@@ -67,6 +67,7 @@ mv "${ROOT}"/*.def "${READY}"
 echo "Downloading dictionaries"
 
 DICT="${ROOT}/dictionaries"
+mkdir -p "${DICT}"
 
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/en-sq.dic.gz -P "${DICT}" # English - Albanian
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/bg-en.dic.gz -P "${DICT}" # Bulgarian - English
