@@ -21,6 +21,8 @@
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+set -o errexit -o pipefail -o noclobber -o nounset
+
 ROOT="$(pwd)"
 EMBS="${ROOT}/embeddings"
 mkdir -p "${EMBS}"
@@ -50,4 +52,31 @@ rm -f "${EMBS}/crawl-300d-2M.vec.zip"
 for lang_code in bg en el it ro sl sq; do
     sed -i '1,500001!d' "${EMBS}/${lang_code}.vec"
     sed -i '1 s/^.*$/500000 300/' "${EMBS}/${lang_code}.vec"
+done
+
+if [ ! "$(ls -A "${ROOT}/vecmap/")" ]; then
+    echo "VecMap directory seems empty, did you run git submodule init && git submodule update?"; exit
+fi
+
+if [ ! -d "${ROOT}/dictionaries" ]; then
+    echo "Dictionaries directory does not exist, did you run ./get_data.sh?"; exit
+fi
+
+if [ ! "$(ls -A "${ROOT}/dictionaries/")" ]; then
+    echo "Dictionaries directory seems empty, did you run ./get_data.sh?"; exit
+fi
+
+TRAIN_DIC_DIR="${ROOT}/dictionaries/train"
+MAP_TO="${ROOT}/bilingual_embeddings"
+
+mkdir -p "${MAP_TO}"
+
+for i in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
+    IFS=',' read -r source_lang target_lang <<< "${i}"
+    python "${ROOT}/vecmap/map_embeddings.py" --supervised \
+        "${TRAIN_DIC_DIR}/${source_lang}_${target_lang}.dic" \
+        "${EMBS}/${source_lang}.vec" \
+        "${EMBS}/${target_lang}.vec" \
+        "${MAP_TO}/${source_lang}_to_${target_lang}.vec" \
+        "${MAP_TO}/${target_lang}_to_${source_lang}.vec" > /dev/null
 done

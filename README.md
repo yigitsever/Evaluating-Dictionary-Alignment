@@ -24,7 +24,17 @@ Linewise aligned definition files are in `wordnets/ready`.
 
 We use [VecMap](https://github.com/artetxem/vecmap) on [fastText](https://fasttext.cc/) embeddings.
 You can skip this step if you are providing your own polylingual embeddings.
-Otherwise simply run;
+Otherwise;
+
+* initialize and update the VecMap submodule;
+
+```bash
+git submodule init && git submodule update
+```
+
+* make sure `./get_data` is already run and `dictionaries` folder is present.
+
+* run;
 
 ```bash
 ./get_embeddings.sh
