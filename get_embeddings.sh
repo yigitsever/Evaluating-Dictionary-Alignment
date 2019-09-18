@@ -78,5 +78,5 @@ for i in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el
         "${EMBS}/${source_lang}.vec" \
         "${EMBS}/${target_lang}.vec" \
         "${MAP_TO}/${source_lang}_to_${target_lang}.vec" \
-        "${MAP_TO}/${target_lang}_to_${source_lang}.vec" > /dev/null
+        "${MAP_TO}/${target_lang}_to_${source_lang}.vec" > /dev/null 2>&1
 done
