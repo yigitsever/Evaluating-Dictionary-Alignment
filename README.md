@@ -3,7 +3,7 @@
 This repository contains the scripts to prepare the resources for the study as well as open source implementations of the methods.
 
 ## Requirements
-- python3
+- Python 3
 - nltk
     ```python
     import nltk
@@ -32,7 +32,7 @@ Otherwise;
 git submodule init && git submodule update
 ```
 
-* make sure `./get_data` is already run and `dictionaries` folder is present.
+* make sure `./get_data` is already run and `dictionaries` directory is present.
 
 * run;
 
