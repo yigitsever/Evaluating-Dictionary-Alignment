@@ -9,6 +9,40 @@ This repository contains the scripts to prepare the resources for the study as w
     import nltk
     nltk.download('wordnet')
     ```
+- [lapjv](https://pypi.org/project/lapjv/)
+- [POT](https://pypi.org/project/POT/)
+- [mosestokenizer](https://pypi.org/project/mosestokenizer/)
+- (Optional) If using VecMap
+    * NumPy
+    * SciPy
+
+<details><summary>We recommend using a virtual environment</summary>
+<p>
+
+In order to create a [virtual environment](https://docs.python.org/3/library/venv.html#venv-def) that resides in a directory `.env` under home;
+
+```bash
+cd ~
+mkdir -p .env && cd .env
+python -m venv evaluating
+source ~/.env/evaluating/bin/activate
+```
+
+Inside the virtual environment, the python interpreter and the installed packages are isolated.
+In order to install all dependencies automatically;
+
+```bash
+pip install -r requirements.txt
+```
+
+After done with the environment run;
+
+```bash
+deactivate
+```
+
+</p>
+
 
 ## Acquiring The Data
 
