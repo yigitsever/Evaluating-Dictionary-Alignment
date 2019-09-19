@@ -1,6 +1,6 @@
 # Evaluating cross-lingual textual similarity on dictionary alignment
 
-This repository contains the scripts to prepare the resources for the study as well as open source implementations of the methods.
+This repository contains the scripts to prepare the resources for the study as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval).
 
 ## Requirements
 - Python 3
@@ -56,8 +56,8 @@ Linewise aligned definition files are in `wordnets/ready`.
 
 ## Acquiring The Embeddings
 
-We use [VecMap](https://github.com/artetxem/vecmap) on [fastText](https://fasttext.cc/) embeddings.
-You can skip this step if you are providing your own polylingual embeddings.
+We use [VecMap](https://github.com/artetxem/vecmap) on [fastText](https://fasttext.cc/) embeddings. You can skip this step if you are providing your own polylingual embeddings.
+
 Otherwise;
 
 * initialize and update the VecMap submodule;
