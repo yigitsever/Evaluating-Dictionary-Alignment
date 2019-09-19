@@ -30,53 +30,54 @@ DICT="${ROOT}/dictionaries"
 
 TRAIN_DIR="${DICT}/train"
 TEST_DIR="${DICT}/test"
-
 TAB_DIR="${WNET}/tab_files"
 READY="${WNET}/ready"
-mkdir -p "${WNET}"
 
+# create wordnets directory and download a single wordnet
+mkdir -p "${WNET}"
 wget -nc -q http://compling.hss.ntu.edu.sg/omw/wns/bul.zip -P "${WNET}"
 unzip -o -q "${WNET}/bul.zip" -d "${WNET}"
 
+# create tab directory and export a single .tab file
 mkdir -p "${TAB_DIR}"
 "${SCRIPTS}/tab_creator.pl" "${WNET}/bul/wn-data-bul.tab" "${TAB_DIR}"
 
-python "${SCRIPTS}/prep_lookup.py" -s "en" -t "bg"
-
+# create ready directory and create two .def files
 mkdir -p "${READY}"
+python "${SCRIPTS}/prep_lookup.py" -s "en" -t "bg"
 mv "${ROOT}"/*.def "${READY}"
 
+# create dictionaries directory and download a single dictionary
 mkdir -p "${DICT}"
-
 wget -nc -q https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/dic/bg-en.dic.gz -P "${DICT}" # Bulgarian - English
 gunzip -q "${DICT}/bg-en.dic.gz"
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# create a train and a test seed lexicon
 perl "${SCRIPTS}/train_dic_creator.pl" "en" "bg" "${DICT}"
-
 mkdir -p "${TRAIN_DIR}"
 mkdir -p "${TEST_DIR}"
-
 mv "${DICT}"/*.train "${TRAIN_DIR}"
 mv "${DICT}"/*.test "${TEST_DIR}"
 rm -f "${DICT}"/*.dic
 
+# download two monolingual embeddings
 wget -nc -q https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.bg.300.vec.gz -P "${EMBS}" # Bulgarian
 wget -nc -q https://dl.fbaipublicfiles.com/fasttext/vectors-english/crawl-300d-2M.vec.zip -P "${EMBS}" # English
-mv "${EMBS}/cc.bg.300.vec" "${EMBS}/bg.vec"
 gunzip "${EMBS}/cc.bg.300.vec.gz"
 mv "${EMBS}/cc.bg.300.vec" "${EMBS}/bg.vec"
 unzip -q "${EMBS}/crawl-300d-2M.vec.zip" -d "${EMBS}"
 mv "${EMBS}/crawl-300d-2M.vec" "${EMBS}/en.vec"
 
-
+# truncate two embeddings
 for lang_code in bg en; do
-    sed -i '1,500001!d' "${EMBS}/${lang_code}.vec"
+    sed -i '1,500001!d' "${EMBS}/${lang_code}.vec" # one line on top for the <number of tokens> <dimensions>
     sed -i '1 s/^.*$/500000 300/' "${EMBS}/${lang_code}.vec"
 done
 
+# map two embeddings
 python "${ROOT}/vecmap/map_embeddings.py" --supervised \
     "${TRAIN_DIC_DIR}/en_bg.train" \
     "${EMBS}/en.vec" \
