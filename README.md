@@ -42,7 +42,7 @@ deactivate
 ```
 
 </p>
-
+</details>
 
 ## Acquiring The Data
 
