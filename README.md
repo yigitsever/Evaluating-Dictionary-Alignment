@@ -41,7 +41,7 @@ In order to install all dependencies automatically use the [pip](https://pypi.or
 pip install -r requirements.txt
 ```
 
-Rest of this README assumes that you are on the repository root directory.
+Rest of this README assumes that you are in the repository root directory.
 
 </p>
 </details>
