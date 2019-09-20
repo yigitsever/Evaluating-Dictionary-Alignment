@@ -33,18 +33,15 @@ python -m venv evaluating
 source ~/.env/evaluating/bin/activate
 ```
 
-Inside the virtual environment, the python interpreter and the installed packages are isolated.
-In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer;
+After the virtual environment is activated, the python interpreter and the installed packages are isolated. In order for our code to work, the correct environment has to be sourced/activated.
+In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer using `requirements.txt`, which resides under the repository directory.
 
 ```bash
+# under Evaluating-Dictionary-Alignment
 pip install -r requirements.txt
 ```
 
-After done with the environment run;
-
-```bash
-deactivate
-```
+Rest of this README assumes that you are in the repository root directory.
 
 </p>
 </details>
