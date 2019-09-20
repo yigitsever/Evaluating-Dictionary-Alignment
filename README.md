@@ -33,7 +33,7 @@ python -m venv evaluating
 source ~/.env/evaluating/bin/activate
 ```
 
-Inside the virtual environment, the python interpreter and the installed packages are isolated.
+After the virtual environment is activated, the python interpreter and the installed packages are isolated. In order for our code to work, the correct environment has to be sources/activated.
 In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer using `requirements.txt`, which resides under the repository directory.
 
 ```bash
