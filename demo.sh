@@ -24,14 +24,17 @@
 
 ROOT="$(pwd)"
 SCRIPTS="${ROOT}/scripts"
-WNET="${ROOT}/wordnets"
-EMBS="${ROOT}/embeddings"
-DICT="${ROOT}/dictionaries"
 
-TRAIN_DIR="${DICT}/train"
-TEST_DIR="${DICT}/test"
+WNET="${ROOT}/wordnets"
 TAB_DIR="${WNET}/tab_files"
 READY="${WNET}/ready"
+
+DICT="${ROOT}/dictionaries"
+TRAIN_DIR="${DICT}/train"
+TEST_DIR="${DICT}/test"
+
+EMBS="${ROOT}/embeddings"
+MAP_TO="${ROOT}/bilingual_embeddings"
 
 # create wordnets directory and download a single wordnet
 mkdir -p "${WNET}"
@@ -84,3 +87,14 @@ python "${ROOT}/vecmap/map_embeddings.py" --supervised \
     "${EMBS}/bg.vec" \
     "${MAP_TO}/en_to_bg.vec" \
     "${MAP_TO}/bg_to_en.vec" > /dev/null 2>&1
+
+mkdir -p "${MAP_TO}" # create bilingual embeddings directory
+source_lang="en"
+target_lang="bg"
+
+python "${ROOT}/vecmap/map_embeddings.py" --supervised \
+    "${TRAIN_DIC_DIR}/${source_lang}_${target_lang}.train" \
+    "${EMBS}/${source_lang}.vec" \
+    "${EMBS}/${target_lang}.vec" \
+    "${MAP_TO}/${source_lang}_to_${target_lang}.vec" \
+    "${MAP_TO}/${target_lang}_to_${source_lang}.vec" > /dev/null 2>&1
