@@ -2,6 +2,10 @@
 
 This repository contains the scripts to prepare the resources as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval).
 
+```bash
+git clone https://github.com/yigitsever/Evaluating-Dictionary-Alignment.git && cd Evaluating-Dictionary-Alignment
+```
+
 ## Requirements
 
 ```bash
@@ -48,8 +52,9 @@ Rest of this README assumes that you are in the repository root directory.
 
 ## Acquiring The Data
 
+*Please make sure that the requirements are met, nltk is critical for this stage*
+
 ```bash
-git clone https://github.com/yigitsever/Evaluating-Dictionary-Alignment.git && cd Evaluating-Dictionary-Alignment
 ./get_data.sh
 ```
 
