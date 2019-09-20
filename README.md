@@ -41,11 +41,7 @@ In order to install all dependencies automatically use the [pip](https://pypi.or
 pip install -r requirements.txt
 ```
 
-After done with the environment run;
-
-```bash
-deactivate
-```
+Rest of this README assumes that you are on the repository root directory.
 
 </p>
 </details>
