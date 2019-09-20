@@ -34,9 +34,10 @@ source ~/.env/evaluating/bin/activate
 ```
 
 Inside the virtual environment, the python interpreter and the installed packages are isolated.
-In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer;
+In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer using `requirements.txt`, which resides under the repository directory.
 
 ```bash
+# under Evaluating-Dictionary-Alignment
 pip install -r requirements.txt
 ```
 
