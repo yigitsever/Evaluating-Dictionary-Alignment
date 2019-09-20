@@ -3,6 +3,11 @@
 This repository contains the scripts to prepare the resources as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval).
 
 ## Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
 - Python 3
 - nltk
     ```python
@@ -29,7 +34,7 @@ source ~/.env/evaluating/bin/activate
 ```
 
 Inside the virtual environment, the python interpreter and the installed packages are isolated.
-In order to install all dependencies automatically;
+In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer;
 
 ```bash
 pip install -r requirements.txt
