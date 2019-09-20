@@ -9,7 +9,7 @@ pip install -r requirements.txt
 ```
 
 - Python 3
-- nltk
+- [nltk](http://www.nltk.org/)
     ```python
     import nltk
     nltk.download('wordnet')
