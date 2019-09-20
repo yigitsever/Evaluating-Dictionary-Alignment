@@ -10,15 +10,12 @@ cd Evaluating-Dictionary-Alignment
 ## Requirements
 
 ```bash
+pip install -r pre_requirements.txt
 pip install -r requirements.txt
 ```
 
 - Python 3
 - [nltk](http://www.nltk.org/)
-    ```python
-    import nltk
-    nltk.download('wordnet')
-    ```
 - [lapjv](https://pypi.org/project/lapjv/)
 - [POT](https://pypi.org/project/POT/)
 - [mosestokenizer](https://pypi.org/project/mosestokenizer/)
@@ -53,7 +50,14 @@ Rest of this README assumes that you are in the repository root directory.
 
 ## Acquiring The Data
 
-*Please make sure that the requirements are met, nltk is critical for this stage*
+nltk is required for this stage;
+
+```python
+import nltk
+nltk.download('wordnet')
+```
+
+Then;
 
 ```bash
 ./get_data.sh
