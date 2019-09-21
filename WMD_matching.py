@@ -72,7 +72,7 @@ def mrr_precision_at_k(golden, preds, k_list=[1,]):
 
 def main(args):
 
-    numpy.seterr(divide='ignore') # POT has issues with divide by zero errors
+    np.seterr(divide='ignore') # POT has issues with divide by zero errors
     source_lang = args.source_lang
     target_lang = args.target_lang
 
