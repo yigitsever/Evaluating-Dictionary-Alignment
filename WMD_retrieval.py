@@ -6,7 +6,6 @@ from sklearn.preprocessing import normalize
 from Wasserstein_Distance import Wasserstein_Retriever
 from Wasserstein_Distance import load_embeddings, clean_corpus_using_embeddings_vocabulary, mrr_precision_at_k
 import csv
-import sys
 
 def main(args):
 
@@ -95,13 +94,13 @@ def main(args):
         clf = Wasserstein_Retriever(W_embed=W_common, n_neighbors=5, n_jobs=14, sinkhorn=(metric == 'snk'))
         clf.fit(X_train_idf[:instances], np.ones(instances))
         dist, preds = clf.kneighbors(X_test_idf[:instances], n_neighbors=instances)
-        mrr, p_at_1 = mrr_precision_at_k(list(range(len(preds))), preds)
-        percentage = p_at_1 * 100
+        mrr, p_at_one = mrr_precision_at_k(list(range(len(preds))), preds)
+        percentage = p_at_one * 100
 
         if (not batch):
-            print(f'MRR: {mrr} | Precision @ 1: {p_at_1}')
+            print(f'P @ 1: {p_at_one}\ninstances: {instances}\n{percentage}%')
         else:
-            fields = [f'{source_lang}', f'{target_lang}', f'{instances}', f'{mrr}', f'{p_at_1}', f'{percentage}']
+            fields = [f'{source_lang}', f'{target_lang}', f'{instances}', f'{p_at_one}', f'{percentage}']
             with open(f'{metric}_retrieval_result.csv', 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow(fields)
