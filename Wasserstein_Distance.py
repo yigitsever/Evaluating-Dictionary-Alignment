@@ -138,7 +138,7 @@ class Wasserstein_Retriever(KNeighborsClassifier):
         dist = self._pairwise_wmd(X)
         return super(Wasserstein_Retriever, self).kneighbors(dist, n_neighbors)
 
-    def align(self, X, n_neighbors=1)
+    def align(self, X, n_neighbors=1):
         """
         Wrapper function over kneighbors to return
         precision at one and percentage values
