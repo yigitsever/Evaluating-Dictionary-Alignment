@@ -1,16 +1,15 @@
 import numpy as np
+import ot
+from lapjv import lapjv
+from mosestokenizer import MosesTokenizer
+from pathos.multiprocessing import ProcessingPool as Pool
 from sklearn.metrics import euclidean_distances
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import normalize
 from sklearn.utils import check_array
 
-import ot
-from lapjv import lapjv
-from mosestokenizer import MosesTokenizer
-from pathos.multiprocessing import ProcessingPool as Pool
 
-
-class Wasserstein_Matcher(KNeighborsClassifier):
+class WassersteinMatcher(KNeighborsClassifier):
     """
     Implements a nearest neighbors classifier for input distributions using the Wasserstein distance as metric.
     Source and target distributions are l_1 normalized before computing the Wasserstein distance.
@@ -34,10 +33,10 @@ class Wasserstein_Matcher(KNeighborsClassifier):
         self.sinkhorn_reg = sinkhorn_reg
         self.W_embed = W_embed
         self.verbose = verbose
-        super(Wasserstein_Matcher, self).__init__(n_neighbors=n_neighbors,
-                                                  n_jobs=n_jobs,
-                                                  metric='precomputed',
-                                                  algorithm='brute')
+        super(WassersteinMatcher, self).__init__(n_neighbors=n_neighbors,
+                                                 n_jobs=n_jobs,
+                                                 metric='precomputed',
+                                                 algorithm='brute')
 
     def _wmd(self, i, row, X_train):
         union_idx = np.union1d(X_train[i].indices, row.indices)
@@ -76,25 +75,34 @@ class Wasserstein_Matcher(KNeighborsClassifier):
         X = check_array(X, accept_sparse='csr',
                         copy=True)  # check if array is sparse
         X = normalize(X, norm='l1', copy=False)
-        return super(Wasserstein_Matcher, self).fit(
-            X, y)  # X_train_idf, np_ones(document collection size)
+        return super(WassersteinMatcher, self).fit(X, y)
 
     def predict(self, X):
         X = check_array(X, accept_sparse='csr', copy=True)
         X = normalize(X, norm='l1', copy=False)
         dist = self._pairwise_wmd(X)
         dist = dist * 1000  # for lapjv, small floating point numbers are evil
-        return super(Wasserstein_Matcher, self).predict(dist)
+        return super(WassersteinMatcher, self).predict(dist)
 
-    def kneighbors(self, X, n_neighbors=1):  # X : X_train_idf
+    def kneighbors(self, X, n_neighbors=1):
         X = check_array(X, accept_sparse='csr', copy=True)
         X = normalize(X, norm='l1', copy=False)
         dist = self._pairwise_wmd(X)
         dist = dist * 1000  # for lapjv, small floating point numbers are evil
-        return lapjv(dist)  # and here is the matching part
+        return lapjv(dist)
 
+    def align(self, X, n_neighbors=1):
+        """ Wrapper function over kneighbors to return
+        precision at one and percentage values
 
-class Wasserstein_Retriever(KNeighborsClassifier):
+        """
+        row_ind, col_ind, _ = self.kneighbors(X, n_neighbors)
+        result = zip(row_ind, col_ind)
+        p_at_one = len([x for x, y in result if x == y])
+        percentage = p_at_one / n_neighbors * 100
+        return p_at_one, percentage
+
+class WassersteinRetriever(KNeighborsClassifier):
     """
     Implements a nearest neighbors classifier for input distributions using the Wasserstein distance as metric.
     Source and target distributions are l_1 normalized before computing the Wasserstein distance.
@@ -118,7 +126,7 @@ class Wasserstein_Retriever(KNeighborsClassifier):
         self.sinkhorn_reg = sinkhorn_reg
         self.W_embed = W_embed
         self.verbose = verbose
-        super(Wasserstein_Retriever, self).__init__(n_neighbors=n_neighbors,
+        super(WassersteinRetriever, self).__init__(n_neighbors=n_neighbors,
                                                     n_jobs=n_jobs,
                                                     metric='precomputed',
                                                     algorithm='brute')
@@ -158,23 +166,22 @@ class Wasserstein_Retriever(KNeighborsClassifier):
     def fit(self, X, y):
         X = check_array(X, accept_sparse='csr', copy=True)
         X = normalize(X, norm='l1', copy=False)
-        return super(Wasserstein_Retriever, self).fit(X, y)
+        return super(WassersteinRetriever, self).fit(X, y)
 
     def predict(self, X):
         X = check_array(X, accept_sparse='csr', copy=True)
         X = normalize(X, norm='l1', copy=False)
         dist = self._pairwise_wmd(X)
-        return super(Wasserstein_Retriever, self).predict(dist)
+        return super(WassersteinRetriever, self).predict(dist)
 
     def kneighbors(self, X, n_neighbors=1):
         X = check_array(X, accept_sparse='csr', copy=True)
         X = normalize(X, norm='l1', copy=False)
         dist = self._pairwise_wmd(X)
-        return super(Wasserstein_Retriever, self).kneighbors(dist, n_neighbors)
+        return super(WassersteinRetriever, self).kneighbors(dist, n_neighbors)
 
     def align(self, X, n_neighbors=1):
-        """
-        Wrapper function over kneighbors to return
+        """ Wrapper function over kneighbors to return
         precision at one and percentage values
 
         """
@@ -196,7 +203,7 @@ def load_embeddings(path, dimension=300):
         first_line = fp.readline().rstrip('\n')
         if first_line.count(' ') == 1:
             # includes the "word_count dimension" information
-            (word_count, dimension) = map(int, first_line.split())
+            (_, dimension) = map(int, first_line.split())
         else:
             # assume the file only contains vectors
             fp.seek(0)
@@ -236,7 +243,9 @@ def clean_corpus_using_embeddings_vocabulary(
     return np.array(clean_corpus), clean_vectors, keys
 
 
-def mrr_precision_at_k(golden, preds, k_list=[1,]):
+def mrr_precision_at_k(golden, preds, k_list=[
+        1,
+]):
     """
     Calculates Mean Reciprocal Error and Hits@1 == Precision@1
     """

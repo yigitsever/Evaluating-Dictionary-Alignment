@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize
 
-from Wasserstein_Distance import (Wasserstein_Matcher,
+from Wasserstein_Distance import (WassersteinMatcher,
                                   clean_corpus_using_embeddings_vocabulary,
                                   load_embeddings)
 
@@ -103,16 +103,13 @@ def main(args):
         if not batch:
             print(f'{metric}: {source_lang} - {target_lang}')
 
-        clf = Wasserstein_Matcher(W_embed=W_common,
-                                  n_neighbors=5,
-                                  n_jobs=14,
-                                  sinkhorn=(metric == 'snk'))
+        clf = WassersteinMatcher(W_embed=W_common,
+                                 n_neighbors=5,
+                                 n_jobs=14,
+                                 sinkhorn=(metric == 'snk'))
         clf.fit(X_train_idf[:instances], np.ones(instances))
-        row_ind, col_ind, _ = clf.kneighbors(X_test_idf[:instances],
-                                             n_neighbors=instances)
-        result = zip(row_ind, col_ind)
-        p_at_one = len([x for x, y in result if x == y])
-        percentage = p_at_one / instances * 100
+        p_at_one, percentage = clf.align(X_test_idf[:instances],
+                                         n_neighbors=instances)
 
         if not batch:
             print(f'P @ 1: {p_at_one}\ninstances: {instances}\n{percentage}%')
