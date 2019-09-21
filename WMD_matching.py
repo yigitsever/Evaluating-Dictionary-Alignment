@@ -1,7 +1,5 @@
 import argparse
 import numpy as np
-from mosestokenizer import *
-import nltk
 import random
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize

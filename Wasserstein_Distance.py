@@ -9,6 +9,7 @@ from sklearn.metrics.scorer import check_scoring
 from pathos.multiprocessing import ProcessingPool as Pool
 from sklearn.metrics import euclidean_distances
 import numpy as np
+from mosestokenizer import MosesTokenizer
 
 class Wasserstein_Matcher(KNeighborsClassifier):
     """
