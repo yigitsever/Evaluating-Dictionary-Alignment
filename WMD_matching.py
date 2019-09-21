@@ -6,69 +6,7 @@ import random
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize
 from Wasserstein_Distance import Wasserstein_Matcher
-
-def load_embeddings(path, dimension=300):
-    """
-    Loads the embeddings from a word2vec formatted file.
-    word2vec format is one line per word and it's associated embedding
-    (dimension x floating numbers) separated by spaces
-    The first line may or may not include the word count and dimension
-    """
-    vectors = {}
-    with open(path, mode='r', encoding='utf8') as fp:
-        first_line = fp.readline().rstrip('\n')
-        if first_line.count(' ') == 1:
-            # includes the "word_count dimension" information
-            (word_count, dimension) = map(int, first_line.split())
-        else:
-            # assume the file only contains vectors
-            fp.seek(0)
-        for line in fp:
-            elems = line.split()
-            vectors[" ".join(elems[:-dimension])] = " ".join(elems[-dimension:])
-    return vectors
-
-def clean_corpus_using_embeddings_vocabulary(
-        embeddings_dictionary,
-        corpus,
-        vectors,
-        language,
-        ):
-    '''
-    Cleans corpus using the dictionary of embeddings.
-    Any word without an associated embedding in the dictionary is ignored.
-    Adds '__target-language' and '__source-language' at the end of the words according to their language.
-    '''
-    clean_corpus, clean_vectors, keys = [], {}, []
-    words_we_want = set(embeddings_dictionary)
-    tokenize = MosesTokenizer(language)
-    for key, doc in enumerate(corpus):
-        clean_doc = []
-        words = tokenize(doc)
-        for word in words:
-            if word in words_we_want:
-                clean_doc.append(word + '__%s' % language)
-                clean_vectors[word + '__%s' % language] = np.array(vectors[word].split()).astype(np.float)
-        if len(clean_doc) > 3 and len(clean_doc) < 25:
-            keys.append(key)
-        clean_corpus.append(' '.join(clean_doc))
-    tokenize.close()
-    return np.array(clean_corpus), clean_vectors, keys
-
-def mrr_precision_at_k(golden, preds, k_list=[1,]):
-    """
-    Calculates Mean Reciprocal Error and Hits@1 == Precision@1
-    """
-    my_score = 0
-    precision_at = np.zeros(len(k_list))
-    for key, elem in enumerate(golden):
-        if elem in preds[key]:
-            location = np.where(preds[key]==elem)[0][0]
-            my_score += 1/(1+ location)
-        for k_index, k_value in enumerate(k_list):
-            if location < k_value:
-                precision_at[k_index] += 1
-    return my_score/len(golden), (precision_at/len(golden))[0]
+from Wasserstein_Distance import load_embeddings, clean_corpus_using_embeddings_vocabulary
 
 def main(args):
 
