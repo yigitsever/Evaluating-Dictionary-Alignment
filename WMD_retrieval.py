@@ -93,9 +93,10 @@ def main(args):
 
         clf = Wasserstein_Retriever(W_embed=W_common, n_neighbors=5, n_jobs=14, sinkhorn=(metric == 'snk'))
         clf.fit(X_train_idf[:instances], np.ones(instances))
-        dist, preds = clf.kneighbors(X_test_idf[:instances], n_neighbors=instances)
-        mrr, p_at_one = mrr_precision_at_k(list(range(len(preds))), preds)
-        percentage = p_at_one * 100
+        # dist, preds = clf.kneighbors(X_test_idf[:instances], n_neighbors=instances)
+        # mrr, p_at_one = mrr_precision_at_k(list(range(len(preds))), preds)
+        # percentage = p_at_one * 100
+        p_at_one, percentage  = clf.align(X_test_idf[:instances], n_neighbors=instances)
 
         if (not batch):
             print(f'P @ 1: {p_at_one}\ninstances: {instances}\n{percentage}%')
