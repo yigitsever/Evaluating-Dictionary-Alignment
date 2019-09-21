@@ -22,6 +22,7 @@ def main(args):
 
     batch = args.batch
     mode = args.mode
+
     defs_source = [line.rstrip('\n') for line in open(source_defs_filename, encoding='utf8')]
     defs_target = [line.rstrip('\n') for line in open(target_defs_filename, encoding='utf8')]
 
