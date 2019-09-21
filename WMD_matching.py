@@ -5,7 +5,7 @@ import nltk
 import random
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize
-from Wass_Matcher import Wasserstein_Matcher
+from Wasserstein_Distance import Wasserstein_Matcher
 
 def load_embeddings(path, dimension=300):
     """
