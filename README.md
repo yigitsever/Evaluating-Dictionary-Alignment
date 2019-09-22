@@ -68,6 +68,7 @@ Linewise aligned definition files are in `wordnets/ready`.
 
 <details><summary>Language pairs and number of available aligned glosses</summary>
 <p>
+
 Source Language | Target Language | # of Pairs
 --- | ---  | ---:
 en | bg | 4959
@@ -85,6 +86,7 @@ el | sq | 4681
 it | ro | 10353
 ro | sl | 2085
 ro | sq | 4646
+
 </p>
 </details>
 
