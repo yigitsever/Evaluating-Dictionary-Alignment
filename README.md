@@ -71,21 +71,21 @@ Linewise aligned definition files are in `wordnets/ready`.
 
 Source Language | Target Language | # of Pairs
 --- | ---  | ---:
-en | bg | 4959
-en | el | 18136
-en | it | 12688
-en | ro | 58754
-en | sl | 3144
-en | sq | 4681
-bg | el | 2817
-bg | it | 2115
-bg | ro | 4701
-el | it | 4801
-el | ro | 2144
-el | sq | 4681
-it | ro | 10353
-ro | sl | 2085
-ro | sq | 4646
+English | Bulgarian | 4959
+English | Greek | 18136
+English | Italian | 12688
+English | Romaian | 58754
+English | Slovenian | 3144
+English | Albanian | 4681
+Bulgarian | Greek | 2817
+Bulgarian | Italian | 2115
+Bulgarian | Romaian | 4701
+Greek | Italian | 4801
+Greek | Romaian | 2144
+Greek | Albanian | 4681
+Italian | Romaian | 10353
+Romaian | Slovenian | 2085
+Romaian | Albanian | 4646
 
 </p>
 </details>
