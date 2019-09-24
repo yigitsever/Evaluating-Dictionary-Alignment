@@ -11,17 +11,20 @@ from sklearn.utils import check_array
 
 class WassersteinMatcher(KNeighborsClassifier):
     """
-    Implements a nearest neighbors classifier for input distributions using the Wasserstein distance as metric.
-    Source and target distributions are l_1 normalized before computing the Wasserstein distance.
-    Wasserstein is parametrized by the distances between the individual points of the distributions.
+    Source and target distributions are l_1 normalized before computing the Wasserstein
+    distance. Wasserstein is parametrized by the distances between the individual
+    points of the distributions.
     """
-    def __init__(self,
-                 W_embed,
-                 n_neighbors=1,
-                 n_jobs=1,
-                 verbose=False,
-                 sinkhorn=False,
-                 sinkhorn_reg=0.1):
+
+    def __init__(
+        self,
+        W_embed,
+        n_neighbors=1,
+        n_jobs=1,
+        verbose=False,
+        sinkhorn=False,
+        sinkhorn_reg=0.1,
+    ):
         """
         Initialization of the class.
         Arguments
@@ -33,10 +36,12 @@ class WassersteinMatcher(KNeighborsClassifier):
         self.sinkhorn_reg = sinkhorn_reg
         self.W_embed = W_embed
         self.verbose = verbose
-        super(WassersteinMatcher, self).__init__(n_neighbors=n_neighbors,
-                                                 n_jobs=n_jobs,
-                                                 metric='precomputed',
-                                                 algorithm='brute')
+        super(WassersteinMatcher, self).__init__(
+            n_neighbors=n_neighbors,
+            n_jobs=n_jobs,
+            metric="precomputed",
+            algorithm="brute",
+        )
 
     def _wmd(self, i, row, X_train):
         union_idx = np.union1d(X_train[i].indices, row.indices)
@@ -51,7 +56,7 @@ class WassersteinMatcher(KNeighborsClassifier):
                 W_dist,
                 self.sinkhorn_reg,
                 numItermax=50,
-                method='sinkhorn_stabilized',
+                method="sinkhorn_stabilized",
             )[0]
         else:
             return ot.emd2(bow_i, bow_j, W_dist)
@@ -66,27 +71,27 @@ class WassersteinMatcher(KNeighborsClassifier):
 
         if X_train is None:
             X_train = self._fit_X
-        pool = Pool(nodes=self.n_jobs
-                    )  # Parallelization of the calculation of the distances
+        pool = Pool(
+            nodes=self.n_jobs
+        )  # Parallelization of the calculation of the distances
         dist = pool.map(self._wmd_row, X_test)
         return np.array(dist)
 
     def fit(self, X, y):  # X_train_idf
-        X = check_array(X, accept_sparse='csr',
-                        copy=True)  # check if array is sparse
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)  # check if array is sparse
+        X = normalize(X, norm="l1", copy=False)
         return super(WassersteinMatcher, self).fit(X, y)
 
     def predict(self, X):
-        X = check_array(X, accept_sparse='csr', copy=True)
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)
+        X = normalize(X, norm="l1", copy=False)
         dist = self._pairwise_wmd(X)
         dist = dist * 1000  # for lapjv, small floating point numbers are evil
         return super(WassersteinMatcher, self).predict(dist)
 
     def kneighbors(self, X, n_neighbors=1):
-        X = check_array(X, accept_sparse='csr', copy=True)
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)
+        X = normalize(X, norm="l1", copy=False)
         dist = self._pairwise_wmd(X)
         dist = dist * 1000  # for lapjv, small floating point numbers are evil
         return lapjv(dist)
@@ -102,19 +107,24 @@ class WassersteinMatcher(KNeighborsClassifier):
         percentage = p_at_one / n_neighbors * 100
         return p_at_one, percentage
 
+
 class WassersteinRetriever(KNeighborsClassifier):
     """
-    Implements a nearest neighbors classifier for input distributions using the Wasserstein distance as metric.
-    Source and target distributions are l_1 normalized before computing the Wasserstein distance.
-    Wasserstein is parametrized by the distances between the individual points of the distributions.
+    Implements a nearest neighbors classifier for input distributions using
+    the Wasserstein distance as metric. Source and target distributions
+    are l_1 normalized before computing the Wasserstein distance. Wasserstein is
+    parametrized by the distances between the individual points of the distributions.
     """
-    def __init__(self,
-                 W_embed,
-                 n_neighbors=1,
-                 n_jobs=1,
-                 verbose=False,
-                 sinkhorn=False,
-                 sinkhorn_reg=0.1):
+
+    def __init__(
+        self,
+        W_embed,
+        n_neighbors=1,
+        n_jobs=1,
+        verbose=False,
+        sinkhorn=False,
+        sinkhorn_reg=0.1,
+    ):
         """
         Initialization of the class.
         Arguments
@@ -126,10 +136,12 @@ class WassersteinRetriever(KNeighborsClassifier):
         self.sinkhorn_reg = sinkhorn_reg
         self.W_embed = W_embed
         self.verbose = verbose
-        super(WassersteinRetriever, self).__init__(n_neighbors=n_neighbors,
-                                                    n_jobs=n_jobs,
-                                                    metric='precomputed',
-                                                    algorithm='brute')
+        super(WassersteinRetriever, self).__init__(
+            n_neighbors=n_neighbors,
+            n_jobs=n_jobs,
+            metric="precomputed",
+            algorithm="brute",
+        )
 
     def _wmd(self, i, row, X_train):
         union_idx = np.union1d(X_train[i].indices, row.indices)
@@ -144,7 +156,7 @@ class WassersteinRetriever(KNeighborsClassifier):
                 W_dist,
                 self.sinkhorn_reg,
                 numItermax=50,
-                method='sinkhorn_stabilized',
+                method="sinkhorn_stabilized",
             )[0]
         else:
             return ot.emd2(bow_i, bow_j, W_dist)
@@ -164,19 +176,19 @@ class WassersteinRetriever(KNeighborsClassifier):
         return np.array(dist)
 
     def fit(self, X, y):
-        X = check_array(X, accept_sparse='csr', copy=True)
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)
+        X = normalize(X, norm="l1", copy=False)
         return super(WassersteinRetriever, self).fit(X, y)
 
     def predict(self, X):
-        X = check_array(X, accept_sparse='csr', copy=True)
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)
+        X = normalize(X, norm="l1", copy=False)
         dist = self._pairwise_wmd(X)
         return super(WassersteinRetriever, self).predict(dist)
 
     def kneighbors(self, X, n_neighbors=1):
-        X = check_array(X, accept_sparse='csr', copy=True)
-        X = normalize(X, norm='l1', copy=False)
+        X = check_array(X, accept_sparse="csr", copy=True)
+        X = normalize(X, norm="l1", copy=False)
         dist = self._pairwise_wmd(X)
         return super(WassersteinRetriever, self).kneighbors(dist, n_neighbors)
 
@@ -199,9 +211,9 @@ def load_embeddings(path, dimension=300):
     The first line may or may not include the word count and dimension
     """
     vectors = {}
-    with open(path, mode='r', encoding='utf8') as fp:
-        first_line = fp.readline().rstrip('\n')
-        if first_line.count(' ') == 1:
+    with open(path, mode="r", encoding="utf8") as fp:
+        first_line = fp.readline().rstrip("\n")
+        if first_line.count(" ") == 1:
             # includes the "word_count dimension" information
             (_, dimension) = map(int, first_line.split())
         else:
@@ -209,22 +221,19 @@ def load_embeddings(path, dimension=300):
             fp.seek(0)
         for line in fp:
             elems = line.split()
-            vectors[" ".join(elems[:-dimension])] = " ".join(
-                elems[-dimension:])
+            vectors[" ".join(elems[:-dimension])] = " ".join(elems[-dimension:])
     return vectors
 
 
 def clean_corpus_using_embeddings_vocabulary(
-        embeddings_dictionary,
-        corpus,
-        vectors,
-        language,
+    embeddings_dictionary, corpus, vectors, language
 ):
-    '''
+    """
     Cleans corpus using the dictionary of embeddings.
     Any word without an associated embedding in the dictionary is ignored.
-    Adds '__target-language' and '__source-language' at the end of the words according to their language.
-    '''
+    Adds '__target-language' and '__source-language' at the end
+    of the words according to their language.
+    """
     clean_corpus, clean_vectors, keys = [], {}, []
     words_we_want = set(embeddings_dictionary)
     tokenize = MosesTokenizer(language)
@@ -233,19 +242,18 @@ def clean_corpus_using_embeddings_vocabulary(
         words = tokenize(doc)
         for word in words:
             if word in words_we_want:
-                clean_doc.append(word + '__%s' % language)
-                clean_vectors[word + '__%s' % language] = np.array(
-                    vectors[word].split()).astype(np.float)
+                clean_doc.append(word + "__%s" % language)
+                clean_vectors[word + "__%s" % language] = np.array(
+                    vectors[word].split()
+                ).astype(np.float)
         if len(clean_doc) > 3 and len(clean_doc) < 25:
             keys.append(key)
-        clean_corpus.append(' '.join(clean_doc))
+        clean_corpus.append(" ".join(clean_doc))
     tokenize.close()
     return np.array(clean_corpus), clean_vectors, keys
 
 
-def mrr_precision_at_k(golden, preds, k_list=[
-        1,
-]):
+def mrr_precision_at_k(golden, preds, k_list=[1]):
     """
     Calculates Mean Reciprocal Error and Hits@1 == Precision@1
     """
