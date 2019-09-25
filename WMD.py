@@ -67,12 +67,6 @@ def main(args):
     clean_src_corpus = list(clean_src_corpus[experiment_keys])
     clean_target_corpus = list(clean_target_corpus[experiment_keys])
 
-    if not batch:
-        print(
-            f"{source_lang} - {target_lang} "
-            + f" document sizes: {len(clean_src_corpus)}, {len(clean_target_corpus)}"
-        )
-
     del vectors_source, vectors_target, defs_source, defs_target
 
     vec = CountVectorizer().fit(clean_src_corpus + clean_target_corpus)
@@ -89,7 +83,11 @@ def main(args):
             W_common.append(np.array(clean_target_vectors[w]))
 
     if not batch:
-        print(f"{source_lang} - {target_lang}: the vocabulary size is {len(W_common)}")
+        print(
+            f"{source_lang} - {target_lang}\n"
+            + f" document sizes: {len(clean_src_corpus)}, {len(clean_target_corpus)}\n"
+            + f" vocabulary size: {len(W_common)}"
+        )
 
     W_common = np.array(W_common)
     W_common = normalize(W_common)
@@ -107,7 +105,7 @@ def main(args):
 
         for metric in run_method:
             if not batch:
-                print(f"{metric}: {source_lang} - {target_lang}")
+                print(f"{paradigm} - {metric} on {source_lang} - {target_lang}")
 
             clf = WassersteinDriver(
                 W_embed=W_common, n_neighbors=5, n_jobs=14, sinkhorn=(metric == "snk")
@@ -118,7 +116,7 @@ def main(args):
             )
 
             if not batch:
-                print(f"P @ 1: {p_at_one}\ninstances: {instances}\n{percentage}%")
+                print(f"P @ 1: {p_at_one}\n{percentage}% {instances} definitions\n")
             else:
                 fields = [
                     f"{source_lang}",
