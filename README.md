@@ -1,6 +1,6 @@
 # Evaluating cross-lingual textual similarity on dictionary alignment
 
-This repository contains the scripts to prepare the resources as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval).
+This repository contains the scripts to prepare the resources as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval) and supervised implementation is extended from https://github.com/fionn-mac/Manhattan-LSTM.
 
 ```bash
 git clone https://github.com/yigitsever/Evaluating-Dictionary-Alignment.git
