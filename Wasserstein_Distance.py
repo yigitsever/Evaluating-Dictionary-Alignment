@@ -225,9 +225,7 @@ def load_embeddings(path, dimension=300):
     return vectors
 
 
-def clean_corpus_using_embeddings_vocabulary(
-    embeddings_dictionary, corpus, vectors, language
-):
+def process_corpus(embeddings_dictionary, corpus, vectors, language):
     """
     Cleans corpus using the dictionary of embeddings.
     Any word without an associated embedding in the dictionary is ignored.
