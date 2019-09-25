@@ -32,7 +32,7 @@ def main(args):
     run_paradigm = list()
 
     if input_paradigm == "all":
-        run_paradigm.extend("matching", "retrieval")
+        run_paradigm.extend(("matching", "retrieval"))
     else:
         run_paradigm.append(input_paradigm)
 
