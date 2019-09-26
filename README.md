@@ -113,7 +113,7 @@ Bear in mind that this will require around 50 GB free space. The mapped embeddin
 
 ## Quick Demo
 
-`demo.sh` is included, downloads data for 2 languages.
+`demo.sh` is included, downloads data for 2 languages and runs WMD (Word Mover's Distance) and SNK (Sinkhorn Distance) methods in matching and retrieval paradigms.
 
 ```bash
 ./demo.sh

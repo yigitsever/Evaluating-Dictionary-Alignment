@@ -95,4 +95,4 @@ python "${ROOT}/vecmap/map_embeddings.py" --supervised \
     "${MAP_TO}/${source_lang}_to_${target_lang}.vec" \
     "${MAP_TO}/${target_lang}_to_${source_lang}.vec" > /dev/null 2>&1
 
-python "${ROOT}/WMD_matching.py" "${source_lang}" "${target_lang}" "${MAP_TO}/${source_lang}_to_${target_lang}.vec" "${MAP_TO}/${target_lang}_to_${source_lang}.vec" "${READY}/${source_lang}_to_${target_lang}.def" "${READY}/${target_lang}_to_${source_lang}.def" all
+python "${ROOT}/WMD.py" "${source_lang}" "${target_lang}" "${MAP_TO}/${source_lang}_to_${target_lang}.vec" "${MAP_TO}/${target_lang}_to_${source_lang}.vec" "${READY}/${source_lang}_to_${target_lang}.def" "${READY}/${target_lang}_to_${source_lang}.def" all all
