@@ -58,11 +58,16 @@ done
 for PAIR in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
     IFS=',' read -r source_lang target_lang <<< "${PAIR}"
     python "${SCRIPTS}/prep_lookup.py" -s "${source_lang}" -t "${target_lang}"
+    python "${SCRIPTS}/tsv_creator.py" "${source_lang}" "${target_lang}"
 done
 
 READY="${WNET}/ready"
 mkdir -p "${READY}"
 mv "${ROOT}"/*.def "${READY}"
+
+TSV_DIR="${WNET}/tsv_files"
+mkdir -p "${TSV_DIR}"
+mv "${ROOT}"/*.tsv "${TSV_DIR}"
 
 echo "Downloading dictionaries"
 
