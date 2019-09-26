@@ -60,8 +60,8 @@ def main(args):
 
     source_defs_filename = args.source_defs
     target_defs_filename = args.target_defs
-    defs_source = load_def(source_defs_filename)
-    defs_target = load_def(target_defs_filename)
+    defs_source = load_def_from_file(source_defs_filename)
+    defs_target = load_def_from_file(target_defs_filename)
 
     clean_source_corpus = clean_corpus_suffix(defs_source, source_lang)
     clean_target_corpus = clean_corpus_suffix(defs_target, target_lang)
@@ -72,9 +72,9 @@ def main(args):
 
     source_predict = clean_source_corpus[-set_aside:]
     target_predict = clean_target_corpus[-set_aside:]
-    labels_predict = [
-        1
-    ] * set_aside  # placeholder, won't be used, we can use 1 because they're correct
+    labels_predict = [1] * set_aside
+
+    # placeholder, won't be used, we can use 1 because they're correct
 
     clean_source_corpus = clean_source_corpus[:-set_aside]
     clean_target_corpus = clean_target_corpus[:-set_aside]
@@ -93,7 +93,7 @@ def main(args):
         try:
             assert len(check) == halfsize
         except AssertionError:
-            print(f"rolling again: {len(check)} vs {halfsize}")
+            pass
         else:
             break
 
@@ -122,6 +122,8 @@ if __name__ == "__main__":
     parser.add_argument("target_lang", help="target language short name")
     parser.add_argument("source_defs", help="path of the source definitions")
     parser.add_argument("target_defs", help="path of the target definitions")
-    parser.add_argument("-n", "--set_aside", help="set aside to validate on", type=int)
+    parser.add_argument(
+        "-n", "--set_aside", help="set aside to validate on", type=int, default=1000
+    )
     args = parser.parse_args()
     main(args)
