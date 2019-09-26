@@ -19,14 +19,13 @@ pip install -r requirements.txt
 - [lapjv](https://pypi.org/project/lapjv/)
 - [POT](https://pypi.org/project/POT/)
 - [mosestokenizer](https://pypi.org/project/mosestokenizer/)
-- (Optional) If using VecMap
-    * NumPy
-    * SciPy
+- NumPy
+- SciPy
 
 <details><summary>We recommend using a virtual environment</summary>
 <p>
 
-In order to create a [virtual environment](https://docs.python.org/3/library/venv.html#venv-def) that resides in a directory `.env` under home;
+In order to create a [virtual environment](https://docs.python.org/3/library/venv.html#venv-def) that resides in a directory `.env` under your home directory;
 
 ```bash
 cd ~
@@ -35,11 +34,12 @@ python -m venv evaluating
 source ~/.env/evaluating/bin/activate
 ```
 
-After the virtual environment is activated, the python interpreter and the installed packages are isolated. In order for our code to work, the correct environment has to be sourced/activated.
-In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer using `requirements.txt`, which resides under the repository directory.
+After the virtual environment is activated, the python interpreter and the installed packages are isolated within. In order for our code to work, the correct environment has to be sourced/activated.
+In order to install all dependencies automatically use the [pip](https://pypi.org/project/pip/) package installer. `pre_requirements.text` includes requirements that packages in `requirements.txt` depend on. Both files come with the repository, so first navigate to the repository and then;
 
 ```bash
 # under Evaluating-Dictionary-Alignment
+pip install -r pre_requirements.txt
 pip install -r requirements.txt
 ```
 
@@ -50,7 +50,7 @@ Rest of this README assumes that you are in the repository root directory.
 
 ## Acquiring The Data
 
-nltk is required for this stage;
+`nltk` is required for this stage;
 
 ```python
 import nltk
@@ -63,8 +63,7 @@ Then;
 ./get_data.sh
 ```
 
-This will create two directories; `dictionaries` and `wordnets`.
-Linewise aligned definition files are in `wordnets/ready`.
+This will create two directories; `dictionaries` and `wordnets`. Definition files that are used by the unsupervised methods are in `wordnets/ready`, they come in pairs, `a_to_b.def` and `b_to_a.def` for wordnet definitions in language `a` and `b`. The pairs are aligned linewise; definitons on the same line for either file belong to the same wordnet synset, in the respective language.
 
 <details><summary>Language pairs and number of available aligned glosses</summary>
 <p>
@@ -94,7 +93,7 @@ Romaian | Albanian | 4646
 
 We use [VecMap](https://github.com/artetxem/vecmap) on [fastText](https://fasttext.cc/) embeddings. You can skip this step if you are providing your own polylingual embeddings.
 
-Otherwise;
+Otherwise,
 
 * initialize and update the VecMap submodule;
 
@@ -110,7 +109,7 @@ git submodule init && git submodule update
 ./get_embeddings.sh
 ```
 
-Bear in mind that this will require around 50 GB free space.
+Bear in mind that this will require around 50 GB free space. The mapped embeddings are stored under `bilingual_embedings` using the same naming scheme that `.def` files use.
 
 ## Quick Demo
 
