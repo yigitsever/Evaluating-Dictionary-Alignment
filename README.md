@@ -153,8 +153,45 @@ optional arguments:
 
 Example;
 
-```bash
-python WMD.py en bg bilingual_embeddings/en_to_bg.vec bilingual_embeddings/bg_to_en.vec wordnets/ready/en_to_bg.def wordnets/ready/bg_to_en.def all all
+```
+python WMD.py en bg bilingual_embeddings/en_to_bg.vec bilingual_embeddings/bg_to_en.vec wordnets/ready/en_to_bg.def wordnets/ready/bg_to_en.def wmd retrieval
 ```
 
-Will run on English and Bulgarian definitions, using WMD and SNK for matching and retrieval, for a total of 4 times.
+Will run on English and Bulgarian definitions, using WMD for retrieval.
+
+### sentence_embedding.py - Sentence Embedding Representation
+
+```
+usage: sentence_embedding.py [-h] [-n INSTANCES] [-b]
+                             source_lang target_lang source_vector
+                             target_vector source_defs target_defs
+                             {all,retrieval,matching}
+
+align dictionaries using sentence embedding representation
+
+positional arguments:
+  source_lang           source language short name
+  target_lang           target language short name
+  source_vector         path of the source vector
+  target_vector         path of the target vector
+  source_defs           path of the source definitions
+  target_defs           path of the target definitions
+  {all,retrieval,matching}
+                        which paradigms to align with
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n INSTANCES, --instances INSTANCES
+                        number of instances in each language to use
+  -b, --batch           running in batch (store results in csv) or running a
+                        single instance (output the results)
+```
+
+Example;
+
+```
+python sentence_embedding.py it ro bilingual_embeddings/it_to_ro.vec bilingual_embeddings/ro_to_it.vec wordnets/ready/it_to_ro.def wordnets/ready/ro_to_it.def matching
+```
+
+Will run on Italian and Romanian definitions, using sentence embedding representation for matching.
+

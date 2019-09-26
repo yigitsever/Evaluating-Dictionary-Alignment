@@ -103,10 +103,13 @@ def main(args):
 
             result = zip(row_ind, col_ind)
             hit_at_one = len([x for x, y in result if x == y])
+            p_at_one = hit_at_one / instances
             percentage = hit_at_one / instances * 100
 
             if not batch:
-                print(f"{hit_at_one} definitions have been matched correctly")
+                print(f"{paradigm} - semb on {source_lang} - {target_lang}")
+                print(f"P @ 1: {p_at_one}")
+                print(f"{percentage} {instances} definitions")
 
             if batch:
                 fields = [
@@ -159,7 +162,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-n",
         "--instances",
-        help="number of instances in each language to retrieve",
+        help="number of instances in each language to use",
         default=1000,
         type=int,
     )
@@ -167,7 +170,7 @@ if __name__ == "__main__":
         "-b",
         "--batch",
         action="store_true",
-        help="running in batch (store results in csv) or"
+        help="running in batch (store results in csv) or "
         + "running a single instance (output the results)",
     )
     parser.add_argument(
