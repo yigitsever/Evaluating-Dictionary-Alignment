@@ -20,7 +20,8 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-#
+
+set -o errexit -o pipefail -o noclobber -o nounset
 
 ROOT="$(pwd)"
 SCRIPTS="${ROOT}/scripts"

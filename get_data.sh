@@ -20,7 +20,8 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-#
+
+set -o errexit -o pipefail -o noclobber -o nounset
 
 ROOT="$(pwd)"
 SCRIPTS="${ROOT}/scripts"
@@ -58,7 +59,7 @@ done
 for PAIR in en,bg en,el en,it, en,ro, en,sl en,sq, bg,el bg,it bg,ro el,it el,ro el,sq it,ro ro,sl ro,sq; do
     IFS=',' read -r source_lang target_lang <<< "${PAIR}"
     python "${SCRIPTS}/prep_lookup.py" -s "${source_lang}" -t "${target_lang}"
-    python "${SCRIPTS}/tsv_creator.py" "${source_lang}" "${target_lang}"
+    python "${SCRIPTS}/tsv_creator.py" "${source_lang}" "${target_lang}" "${source_lang}_to_${target_lang}.def" "${target_lang}_to_${source_lang}.def"
 done
 
 READY="${WNET}/ready"
