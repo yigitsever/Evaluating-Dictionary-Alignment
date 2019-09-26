@@ -145,7 +145,7 @@ if __name__ == "__main__":
         "-b",
         "--batch",
         action="store_true",
-        help="running in batch (store results in csv) or"
+        help="running in batch (store results in csv) or "
         + "running a single instance (output the results)",
     )
     parser.add_argument(

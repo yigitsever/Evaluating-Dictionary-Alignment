@@ -118,3 +118,43 @@ Bear in mind that this will require around 50 GB free space. The mapped embeddin
 ```bash
 ./demo.sh
 ```
+
+## Usage
+
+### WMD.py - Word Mover's Distance and Sinkhorn Distance
+
+Aligns definitions using WMD or SNK metrics and matching or retrieval paradigms.
+
+```
+usage: WMD.py [-h] [-b] [-n INSTANCES]
+              source_lang target_lang source_vector target_vector source_defs
+              target_defs {all,wmd,snk} {all,retrieval,matching}
+
+align dictionaries using wmd and wasserstein distance
+
+positional arguments:
+  source_lang           source language short name
+  target_lang           target language short name
+  source_vector         path of the source vector
+  target_vector         path of the target vector
+  source_defs           path of the source definitions
+  target_defs           path of the target definitions
+  {all,wmd,snk}         which methods to run
+  {all,retrieval,matching}
+                        which paradigms to align with
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -b, --batch           running in batch (store results in csv) or running a
+                        single instance (output the results)
+  -n INSTANCES, --instances INSTANCES
+                        number of instances in each language to retrieve
+```
+
+Example;
+
+```bash
+python WMD.py en bg bilingual_embeddings/en_to_bg.vec bilingual_embeddings/bg_to_en.vec wordnets/ready/en_to_bg.def wordnets/ready/bg_to_en.def all all
+```
+
+Will run on English and Bulgarian definitions, using WMD and SNK for matching and retrieval, for a total of 4 times.
