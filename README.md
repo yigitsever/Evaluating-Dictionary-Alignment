@@ -63,7 +63,7 @@ Then;
 ./get_data.sh
 ```
 
-This will create two directories; `dictionaries` and `wordnets`. Definition files that are used by the unsupervised methods are in `wordnets/ready`, they come in pairs, `a_to_b.def` and `b_to_a.def` for wordnet definitions in language `a` and `b`. The pairs are aligned linewise; definitons on the same line for either file belong to the same wordnet synset, in the respective language.
+This will create two directories; `dictionaries` and `wordnets`. Definition files that are used by the unsupervised methods are in `wordnets/ready`, they come in pairs, `a_to_b.def` and `b_to_a.def` for wordnet definitions in language `a` and `b`. The pairs are aligned linewise; definitions on the same line for either file belong to the same wordnet synset, in the respective language.
 
 <details><summary>Language pairs and number of available aligned glosses</summary>
 <p>
@@ -73,18 +73,18 @@ Source Language | Target Language | # of Pairs
 English | Bulgarian | 4959
 English | Greek | 18136
 English | Italian | 12688
-English | Romaian | 58754
+English | Romanian | 58754
 English | Slovenian | 3144
 English | Albanian | 4681
 Bulgarian | Greek | 2817
 Bulgarian | Italian | 2115
-Bulgarian | Romaian | 4701
+Bulgarian | Romanian | 4701
 Greek | Italian | 4801
-Greek | Romaian | 2144
+Greek | Romanian | 2144
 Greek | Albanian | 4681
-Italian | Romaian | 10353
-Romaian | Slovenian | 2085
-Romaian | Albanian | 4646
+Italian | Romanian | 10353
+Romanian | Slovenian | 2085
+Romanian | Albanian | 4646
 
 </p>
 </details>
