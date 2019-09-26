@@ -109,7 +109,7 @@ def main(args):
             if not batch:
                 print(f"{paradigm} - semb on {source_lang} - {target_lang}")
                 print(f"P @ 1: {p_at_one}")
-                print(f"{percentage} {instances} definitions")
+                print(f"{percentage}% {instances} definitions")
 
             if batch:
                 fields = [
