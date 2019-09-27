@@ -157,7 +157,10 @@ Example;
 python WMD.py en bg bilingual_embeddings/en_to_bg.vec bilingual_embeddings/bg_to_en.vec wordnets/ready/en_to_bg.def wordnets/ready/bg_to_en.def wmd retrieval
 ```
 
-Will run on English and Bulgarian definitions, using WMD for retrieval.
+Will run on English and Bulgarian definitions, using WMD for retrieval. We included a batch script to run WMD and SNK with retrieval and matching on all available language pairs;
+```
+./run_wmd.sh
+```
 
 ### sentence_embedding.py - Sentence Embedding Representation
 
@@ -193,7 +196,11 @@ Example;
 python sentence_embedding.py it ro bilingual_embeddings/it_to_ro.vec bilingual_embeddings/ro_to_it.vec wordnets/ready/it_to_ro.def wordnets/ready/ro_to_it.def matching
 ```
 
-Will run on Italian and Romanian definitions, using sentence embedding representation for matching.
+Will run on Italian and Romanian definitions, using sentence embedding representation for matching. We included a batch script to run alignment using sentence embeddings using retrieval and matching on all available language pairs;
+
+```
+./run_semb.sh
+```
 
 
 ### learn_and_predict.py - Supervised Alignment
@@ -234,4 +241,8 @@ Example;
 python learn_and_predict.py -sl en -tl ro -df ./wordnets/tsv_files/en_to_ro.tsv -es bilingual_embeddings/en_to_ro.vec -et bilingual_embeddings/ro_to_en.vec
 ```
 
-Will run on English and Romanian definitions.
+Will run on English and Romanian definitions. We included a batch script to run supervised alignment on all available pairs;
+
+```
+./run_supervised.sh
+```
