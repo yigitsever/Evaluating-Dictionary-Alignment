@@ -195,3 +195,43 @@ python sentence_embedding.py it ro bilingual_embeddings/it_to_ro.vec bilingual_e
 
 Will run on Italian and Romanian definitions, using sentence embedding representation for matching.
 
+
+### learn_and_predict.py - Supervised Alignment
+
+```
+usage: learn_and_predict.py [-h] -sl SOURCE_LANG -tl TARGET_LANG -df DATA_FILE
+                            -es SOURCE_EMB_FILE -et TARGET_EMB_FILE
+                            [-l MAX_LEN] [-z HIDDEN_SIZE] [-b] [-n NUM_ITERS]
+                            [-lr LEARNING_RATE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -sl SOURCE_LANG, --source_lang SOURCE_LANG
+                        Source language.
+  -tl TARGET_LANG, --target_lang TARGET_LANG
+                        Target language.
+  -df DATA_FILE, --data_file DATA_FILE
+                        Path to dataset.
+  -es SOURCE_EMB_FILE, --source_emb_file SOURCE_EMB_FILE
+                        Path to source embedding file.
+  -et TARGET_EMB_FILE, --target_emb_file TARGET_EMB_FILE
+                        Path to target embedding file.
+  -l MAX_LEN, --max_len MAX_LEN
+                        Maximum number of words in a sentence.
+  -z HIDDEN_SIZE, --hidden_size HIDDEN_SIZE
+                        Number of units in LSTM layer.
+  -b, --batch           running in batch (store results to csv) or running in
+                        a single instance (output the results)
+  -n NUM_ITERS, --num_iters NUM_ITERS
+                        Number of iterations/epochs.
+  -lr LEARNING_RATE, --learning_rate LEARNING_RATE
+                        Learning rate for optimizer.
+```
+
+Example;
+
+```
+python learn_and_predict.py -sl en -tl ro -df ./wordnets/tsv_files/en_to_ro.tsv -es bilingual_embeddings/en_to_ro.vec -et bilingual_embeddings/ro_to_en.vec
+```
+
+Will run on English and Romanian definitions.
