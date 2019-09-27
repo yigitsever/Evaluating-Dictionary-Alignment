@@ -1,13 +1,13 @@
 import argparse
 import csv
 
-import numpy as np
-
 import keras
 import keras.backend as K
-from Helpers import Data, Get_Embedding
+import numpy as np
 from keras.layers import LSTM, Embedding, Input, Lambda, concatenate
 from keras.models import Model
+
+from Helpers import Data, Get_Embedding
 
 
 def get_learning_rate(epoch=None, model=None):
@@ -151,40 +151,47 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "-sl", "--source_lang", type=str, help="Source language.", default="english"
+        "-sl", "--source_lang", type=str, help="Source language.", required=True
     )
     parser.add_argument(
-        "-tl", "--target_lang", type=str, help="Target language.", default="italian"
+        "-tl", "--target_lang", type=str, help="Target language.", required=True
     )
-    parser.add_argument("-df", "--data_file", type=str, help="Path to dataset.")
+    parser.add_argument(
+        "-df", "--data_file", type=str, help="Path to dataset.", required=True
+    )
     parser.add_argument(
         "-es",
         "--source_emb_file",
         type=str,
-        help="Path to Source (English) Embedding File.",
+        help="Path to source embedding file.",
+        required=True,
     )
     parser.add_argument(
-        "-et", "--target_emb_file", type=str, help="Path to Target Embedding File."
+        "-et",
+        "--target_emb_file",
+        type=str,
+        help="Path to target embedding file.",
+        required=True,
     )
     parser.add_argument(
         "-l",
         "--max_len",
         type=int,
         help="Maximum number of words in a sentence.",
-        default=20,
+        default=25,
     )
     parser.add_argument(
         "-z",
         "--hidden_size",
         type=int,
-        help="Number of Units in LSTM layer.",
+        help="Number of units in LSTM layer.",
         default=50,
     )
     parser.add_argument(
         "-b",
         "--batch",
         action="store_true",
-        help="running in batch (store results to csv) or"
+        help="running in batch (store results to csv) or "
         + "running in a single instance (output the results)",
     )
     parser.add_argument(
