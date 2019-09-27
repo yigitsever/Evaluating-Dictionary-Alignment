@@ -101,7 +101,7 @@ def main(args):
     model.summary()
 
     adjuster = keras.callbacks.ReduceLROnPlateau(
-        monitor="val_acc", patience=5, verbose=1, factor=0.5, min_lr=0.0001
+        monitor="val_accuracy", patience=5, verbose=1, factor=0.5, min_lr=0.0001
     )
 
     history = model.fit(
@@ -139,7 +139,8 @@ def main(args):
     ]
 
     if not batch:
-        print(f"P@1: {precision_at_one/1000}, {precision_at_one} defs")
+        print(f"Supervised Retrieval {source_lang} - {target_lang}")
+        print(f"P@1: {precision_at_one/1000}")
     else:
         with open("supervised.csv", "a") as f:
             writer = csv.writer(f)
