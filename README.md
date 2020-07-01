@@ -1,5 +1,7 @@
 # Evaluating cross-lingual textual similarity on dictionary alignment
 
+The code and the dataset in this repository has been used in [Evaluating cross-lingual textual similarity on dictionary alignment problem](https://link.springer.com/article/10.1007/s10579-020-09498-1).
+
 This repository contains the scripts to prepare the resources as well as open source implementations of the methods. Word Mover's Distance and Sinkhorn implementations are extended from [Cross-lingual retrieval with Wasserstein distance](https://github.com/balikasg/WassersteinRetrieval) and supervised implementation is extended from https://github.com/fionn-mac/Manhattan-LSTM.
 
 ```bash
@@ -246,3 +248,23 @@ Will run on English and Romanian definitions. We included a batch script to run 
 ```
 ./run_supervised.sh
 ```
+
+# Citation
+
+If you use this repository (code or dataset) please cite the relevant paper;
+
+```bibtex
+@article{severEvaluating2020,
+	title = {Evaluating cross-lingual textual similarity on dictionary alignment problem},
+	issn = {1574-0218},
+	url = {https://doi.org/10.1007/s10579-020-09498-1},
+	doi = {10.1007/s10579-020-09498-1},
+	language = {en},
+	urldate = {2020-07-01},
+	journal = {Language Resources and Evaluation},
+	author = {Sever, Yiğit and Ercan, Gönenç},
+	month = jun,
+	year = {2020},
+}
+```
+
